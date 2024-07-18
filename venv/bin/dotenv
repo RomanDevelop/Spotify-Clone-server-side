@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/anymacstore/Flutter development/musicapp/server/venv/bin/python3" "$0" "$@"
+'''exec' "/Users/anymacstore/Flutter development/Spotify-Clone-server-side/venv/bin/python3" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re

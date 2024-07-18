@@ -29,7 +29,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/anymacstore/Flutter development/musicapp/server/venv"
+set -gx VIRTUAL_ENV "/Users/anymacstore/Flutter development/Spotify-Clone-server-side/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/anymacstore/Flutter development/musicapp/server/venv"
+VIRTUAL_ENV="/Users/anymacstore/Flutter development/Spotify-Clone-server-side/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
