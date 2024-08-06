@@ -1,6 +1,6 @@
 import uuid
 import bcrypt
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, Header
 import jwt
 from database import get_db
 from models.user import User
@@ -48,4 +48,20 @@ def login_user(user: UserLogin, db: Session=Depends(get_db)):
     token = jwt.encode({'id': user_db.id}, 'password_key')
     
     return {'token': token, 'user': user_db}
+
+@router.get('/')
+def current_user_data(db: Session=Depends(get_db), x_auth_token=Header()):
+    # get the user token from the headers
+    if not x_auth_token:
+        raise HTTPException(401, 'No auth token, access denied!')
+    # decode the token
+    verified_token = jwt.decode(x_auth_token, 'password_key', ['HS256'])
+
+    if not verified_token:
+        raise HTTPException(401, 'Token verification failed, authorization denied!')
+    # get the id from the token
+    uid = verified_token.get('id')
+    return uid
+    # postgres database get the user info
+    pass
 
