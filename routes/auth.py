@@ -1,8 +1,9 @@
 import uuid
 import bcrypt
-from fastapi import Depends, HTTPException, Header
+from fastapi import Depends, HTTPException
 import jwt
 from database import get_db
+from middleware.auth_middleware import auth_middleware
 from models.user import User
 from pydantic_schemas.user_create import UserCreate
 from fastapi import APIRouter
@@ -50,18 +51,13 @@ def login_user(user: UserLogin, db: Session=Depends(get_db)):
     return {'token': token, 'user': user_db}
 
 @router.get('/')
-def current_user_data(db: Session=Depends(get_db), x_auth_token=Header()):
-    # get the user token from the headers
-    if not x_auth_token:
-        raise HTTPException(401, 'No auth token, access denied!')
-    # decode the token
-    verified_token = jwt.decode(x_auth_token, 'password_key', ['HS256'])
+def current_user_data(db: Session=Depends(get_db), 
+                      user_dict = Depends(auth_middleware)):
+    user = db.query(User).filter(User.id == user_dict['uid']).first()
 
-    if not verified_token:
-        raise HTTPException(401, 'Token verification failed, authorization denied!')
-    # get the id from the token
-    uid = verified_token.get('id')
-    return uid
-    # postgres database get the user info
-    pass
+    if not user:
+        raise HTTPException(404, 'User not found!')
+    
+    return user
 
+    
